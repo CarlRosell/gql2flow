@@ -1,6 +1,10 @@
 'use strict';
 require('./polyfill');
 
+const generateTypeName = name => `${name}`;
+const typeNameDeclaration = '__typename: string;\n';
+const generateEnumName = name => `${name}Enum`;
+
 const generateRootDataName = schema => {
   let rootNamespaces = [];
 
@@ -28,7 +32,6 @@ ${options.exportString} type GraphQLResponseRoot = {
 }
 
 ${options.exportString} type GraphQLResponseError = {
-  apa: ${options.exportString};
   message: string;
   locations?: Array<GraphQLResponseErrorLocation>;
   [propName: string]: any;
@@ -40,14 +43,10 @@ ${options.exportString} type GraphQLResponseErrorLocation = {
 }
 `;
 
-const generateTypeName = name => `${name}`;
-
 const generateTypeDeclaration = (description, name, possibleTypes, options) => `
 ${maybeDescription(description)}
 ${options.exportString} type ${name} = ${possibleTypes};
 `;
-
-const typeNameDeclaration = '__typename: string;\n';
 
 const generateInterfaceDeclaration = (description, declaration, fields, additionalInfo, isInput, options) => `
 ${!additionalInfo ? '' : additionalInfo}${maybeDescription(description)}
@@ -55,8 +54,6 @@ ${options.exportString} type ${declaration} = {
   ${isInput ? '' : typeNameDeclaration}${fields}
 }
 `;
-
-const generateEnumName = name => `${name}Enum`;
 
 const generateEnumDeclaration = (description, name, enumValues, options) => `
 ${maybeDescription(description)}
