@@ -2,18 +2,12 @@
 'use strict';
 const fileIO = require('./fileIO');
 
-const generateModule = (moduleName, interfaces) => {
-  return `// @flow
+const generateModule = (moduleName, interfaces) => `// @flow
 // graphql flow definitions
 ${interfaces}
-`
-};
+`;
 
-const writeModuleToFile = (outputFile, module) => {
+const writeModuleToFile = (outputFile, module) =>
   fileIO.writeToFile(outputFile, module);
-}
 
-module.exports = {
-  writeModuleToFile,
-  generateModule
-}
+module.exports = { writeModuleToFile, generateModule };

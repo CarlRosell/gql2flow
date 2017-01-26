@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const program = require('commander');
+const prettier = require('prettier');
 
 // file I/O helpers
 const fileIO = require('./util/fileIO');
@@ -12,19 +13,20 @@ const interfaceUtils = require('./util/interface');
 const moduleUtils = require('./util/module')
 
 program
-  .version('0.2.1')
+  .version('1.0.0')
   .usage('[options] <schema.json>')
   .option('-o --output-file [outputFile]', 'name for ouput file, defaults to graphql-export.flow.js', 'graphql-export.flow.js')
   .option('-m --module-name [moduleName]', 'name for the export module, defaults to "GQL"', 'GQL')
   .option('-i --ignored-types <ignoredTypes>', 'names of types to ignore (comma delimited)', v => v.split(','), [])
+  .option('-e --export', 'export types')
   .action((fileName, options) => {
-    let schema = fileIO.readFile(fileName);
+    const schema = fileIO.readFile(fileName);
 
-    let interfaces = interfaceUtils.schemaToInterfaces(schema, options);
+    const interfaces = interfaceUtils.schemaToInterfaces(schema, options);
 
-    let module = moduleUtils.generateModule(options.moduleName, interfaces);
+    const module = moduleUtils.generateModule(options.moduleName, interfaces);
 
-    moduleUtils.writeModuleToFile(options.outputFile, module);
+    moduleUtils.writeModuleToFile(options.outputFile, prettier.format(module, { singleQuote: true }));
   })
   .parse(process.argv);
 
