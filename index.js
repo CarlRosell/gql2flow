@@ -19,6 +19,7 @@ program
   .option('-m --module-name [moduleName]', 'name for the export module, defaults to "GQL"', 'GQL')
   .option('-i --ignored-types <ignoredTypes>', 'names of types to ignore (comma delimited)', v => v.split(','), [])
   .option('-e --export', 'export types')
+  .option('-p --post-fix [postFix]', 'add post fix to all of the types, defaults to ""', '')
   .action((fileName, options) => {
     const schema = fileIO.readFile(fileName);
 
