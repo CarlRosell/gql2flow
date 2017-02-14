@@ -125,7 +125,7 @@ const typeToInterface = (type, options) => {
   }
 
   if (type.kind === 'ENUM') {
-    return generateEnumDeclaration(type.description, type.name, type.enumValues.map(v => `"${v.name}${options.postFix}"`), options);
+    return generateEnumDeclaration(type.description, type.name, type.enumValues.map(v => `"${v.name}"`), options);
   }
 
   let isInput = type.kind === 'INPUT_OBJECT';
